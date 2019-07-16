@@ -1,0 +1,23 @@
+# Lokasi file 404.php misalnya di
+# http://namahost/tip&trik/bab08/404.php
+ErrorDocument 404 /tip&trik/bab08/404.php
+
+#  Kode error lain di client
+#  Bad syntax
+#ErrorDocument 400 /400.php
+#  Unauthorized
+#ErrorDocument 401 /401.php
+#  Not used
+#ErrorDocument 402 /402.php
+#  Forbidden
+#ErrorDocument 403 /403.php
+
+#  Kode error di server
+#  Internal server error
+#ErrorDocument 500 /500.php
+#  Not implemented
+#ErrorDocument 501 /501.php
+#  Overloaded
+#ErrorDocument 502 /502.php
+#  Gateway timeout
+#ErrorDocument 503 /503.php

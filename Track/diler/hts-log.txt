@@ -1,0 +1,17 @@
+HTTrack3.49-2 launched on Mon, 11 Mar 2019 21:58:06 at http://astradaihatsukebumen.id/gama +*.png +*.gif +*.jpg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(httrack -@i4 -O /storage/emulated/0/HTTrack/Websites/diler -A25000k%Px%q0u1s2%s%u%fDaK0H0N0p3 http://astradaihatsukebumen.id/gama +*.png +*.gif +*.jpg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2017], %s -->" -%l LANGUAGE_ISO,* )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+21:58:32	Error: 	"Not Found" (404) at link astradaihatsukebumen.id/admin/fonts/fontawesome-webfont.eot?v=4.5.0 (from astradaihatsukebumen.id/admin/css/font-awesome.min.css)
+21:58:32	Error: 	"Not Found" (404) at link astradaihatsukebumen.id/admin/fonts/fontawesome-webfont.eot? (from astradaihatsukebumen.id/admin/css/font-awesome.min.css)
+21:58:32	Error: 	"Not Found" (404) at link astradaihatsukebumen.id/admin/fonts/fontawesome-webfont.woff2?v=4.5.0 (from astradaihatsukebumen.id/admin/css/font-awesome.min.css)
+21:58:32	Error: 	"Not Found" (404) at link astradaihatsukebumen.id/admin/fonts/fontawesome-webfont.woff?v=4.5.0 (from astradaihatsukebumen.id/admin/css/font-awesome.min.css)
+21:58:32	Error: 	"Not Found" (404) at link astradaihatsukebumen.id/admin/fonts/fontawesome-webfont.ttf?v=4.5.0 (from astradaihatsukebumen.id/admin/css/font-awesome.min.css)
+21:58:32	Error: 	"Not Found" (404) at link astradaihatsukebumen.id/admin/fonts/fontawesome-webfont.svg?v=4.5.0 (from astradaihatsukebumen.id/admin/css/font-awesome.min.css)
+
+HTTrack Website Copier/3.49-2 mirror complete in 26 seconds : 18 links scanned, 11 files written (520370 bytes overall) [527222 bytes received at 20277 bytes/sec], 10480 bytes transferred using HTTP compression in 8 files, ratio 47%, 2.2 requests per connection
+(6 errors, 0 warnings, 0 messages)

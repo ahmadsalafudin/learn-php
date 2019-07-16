@@ -1,0 +1,31 @@
+<html>
+<head>
+ <title>FORM KRS</title>
+</head>
+<body>
+ <form method = 'post' action= "aksi.php">
+  <table>
+   <tr>
+    <td>NIM</td>
+    <td>:</td>
+    <td><input type='text' name='nim'></td>
+   </tr>
+   <tr>
+    <td>NAMA MAHASISWA</td>
+    <td>:</td>
+    <td><input type='text' name='nama'></td>
+   </tr>
+   <tr>
+    <td>NAMA MATAKULIAH</td>
+    <td>:</td>
+    <td><input type='text' name='matkul'></td>
+   </tr>
+   <tr>
+    <td></td>
+    <td></td>
+    <td><input type='submit' value='Submit'></td>
+   </tr>
+  </table>  
+ </form>
+</body>
+</html>

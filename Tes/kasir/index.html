@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<!-- define angular app -->
+<html ng-app="Apps">
+
+<head>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/style.css">
+
+  <!-- Dashboard template -->
+  <link rel="stylesheet" href="bootstrap/css/dashboard.css" />
+
+  <!-- AngularJs Core -->
+  <script src="angular-1.5.8/angular.min.js"></script>
+  <script type="text/javascript" src="angular-1.5.8/angular-route.min.js"></script>
+  <script type="text/javascript" src="angular-1.5.8/angular.min.js.map"></script>
+
+  <title>Kasirku</title>
+</head>
+
+<!-- define angular controller -->
+<body ng-controller="mainController">
+
+  <header>
+    <nav id="nb" class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div id="navbar" class="navbar-collapse collapse">
+        <a class="navbar-brand" href="#">kasirku</a>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+            <li><a href="#orders"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a></li>
+            <li><a href="#contact"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidebar" class="col-sm-3 col-md-2 sidebar">
+          <ul id="myMenu" class="nav nav-sidebar">
+            <li>
+              <a href="#/" title="Home"><span class="glyphicon glyphicon-home"></span>Home</a>
+            </li>
+            <li>
+              <a href="#orders" title="Orders"><span class="glyphicon glyphicon-bell"></span>Orders</a>
+            </li>
+            <li>
+              <a href="#payments" title="Payments"><span class="glyphicon glyphicon-tags"></span>Payments</a>
+            </li>
+            <li>
+              <a href="#reports" title="Reports"><span class="glyphicon glyphicon-print"></span>Reports</a>
+            </li>
+            <li>
+              <a href="#settings" title="Settings"><span class="glyphicon glyphicon-wrench"></span>Settings</a>
+            </li>
+            <li>
+              <a href="#help" title="Help"><span class="glyphicon glyphicon-info-sign"></span>Help</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div id="main">
+            <div ng-view></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script src="jquery/script.js"></script>
+  <script type="text/javascript" src="bootstrap/js/init.js"></script>
+  <script type="text/javascript" src="jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://my.netscape.com/rdf/simple/0.9/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0">
+  <channel>
+     <title>PHP: Hypertext Preprocessor</title>
+     <link>http://www.php.net/</link>
+     <description>The PHP scripting language web site</description>
+  </channel>
+  
+  <item>
+    <title>PHP 4.3.5RC1 released! &lt;img src="http://localhost/php.gif" border=0/&gt;</title>
+    <link>http://www.php.net/downloads.php</link>
+    <description>PHP 4.3.5RC1 has been released for testing. This is 
+     the first release candidate and should have a very low number 
+     of problems and/or bugs. Nevertheless, please download and test 
+     it as much as possible on real-life applications to uncover any
+     remaining issues. List of changes can be found in the NEWS
+     file.
+    </description>
+    <feedburner:origLink>http://yro.slashdot.org/article.pl?sid=06/02/01/0549240&amp;from=rss</feedburner:origLink>
+  </item>
+  
+  <item>
+    <title>PHP 5.1.1 released! &lt;img src="http://localhost/php5.gif" border=0/&gt;</title>
+    <link>http://www.php.net/downloads.php</link>
+    <description>
+     PHP 5.1.1 has been released. The third beta of 
+     PHP is also scheduled to be the last one (barring unexpected 
+     surprises). This beta incorporates dozens of bug fixes since 
+     Beta 2, better XML support and many other improvements, some 
+     of which are documented in the ChangeLog. Some of the key 
+     features of PHP 5 include: PHP 5 features the Zend Engine 2. 
+    </description>
+    <feedburner:origLink>http://yro.slashdot.org/article.pl?sid=06/02/01/0549240&amp;from=rss</feedburner:origLink>
+  </item>
+  
+</rdf:RDF>
+

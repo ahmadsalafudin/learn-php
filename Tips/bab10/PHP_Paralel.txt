@@ -1,0 +1,24 @@
+# Bind Apache ke port 83, bisa juga no lain
+# tapi jangan gunakan port yang sudah dipakai
+Listen 83
+ # Directive virtual host
+<Virtualhost _default_:83>
+     ServerName localhost
+     ServerAdmin me@localhost
+     DirectoryIndex index.html index.php    
+     # Logging error untuk kode PHP 5
+     ErrorLog logs/php5error.log     
+     # Lokasi file-file untuk PHP 5
+     DocumentRoot "c:/Apache2/htdocs2/"
+
+     <Directory "C:/Apache2/htdocs2">
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+     </Directory>
+
+     ScriptAlias /php5/ "C:/php5-1/"
+     Action     php5-script /php5/php-cgi.exe
+     AddHandler php5-script .php .html .htm
+ </Virtualhost>

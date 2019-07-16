@@ -1,0 +1,254 @@
+<?php
+include_once "library/inc.sesadmin.php";
+include_once "library/inc.library.php";
+
+# TOMBOL SIMPAN DIKLIK
+if(isset($_POST['btnSimpan'])){
+	// Skrip validasi form dan Simpan data
+	# Baca Variabel Form
+	$cmbKelas		= $_POST['cmbKelas'];
+	$txtNamaKls		= $_POST['txtNamaKls'];
+	$txtNamaKls		= str_replace("'","&acute;",$txtNamaKls);
+	$txtTahunAjar	= $_POST['txtTahunAjar'];
+	$cmbGuru		= $_POST['cmbGuru'];
+
+
+	# Validasi form, jika kosong sampaikan pesan error
+	$pesanError = array();
+	if (trim($txtTahunAjar)=="") {
+		$pesanError[] = "Data <b>Tahun Ajaran</b> tidak boleh kosong !";		
+	}
+	if (trim($cmbKelas)=="KOSONG") {
+		$pesanError[] = "Data <b>Kelas (X, XI, XII) </b> belum ada yang dipilih !";			
+	}
+	if (trim($txtNamaKls)=="") {
+		$pesanError[] = "Data <b>Nama Kelas</b> tidak boleh kosong !";			
+	}
+	if (trim($cmbGuru)=="KOSONG") {
+		$pesanError[] = "Data <b>Guru Wali Kelas</b> belum ada yang dipilih !";			
+	}
+	if(! isset($_POST['cbSiswa'])) {
+		$pesanError[] = "Data <b>Data Siswa (CekBox)</b> belum ada yang dipilih !";		
+	}
+			
+	# Validasi Nama kelas, jika sudah ada akan ditolak
+	$sqlCek="SELECT * FROM kelas WHERE nama_kelas='$txtNamaKls' AND tahun_ajar='$txtTahunAjar'";
+	$qryCek=mysql_query($sqlCek, $koneksidb) or die ("Eror Query".mysql_error()); 
+	if(mysql_num_rows($qryCek)>=1){
+		$pesanError[] = "Maaf, Nama Kelas<b> $txtNamaKls </b> dengan <b>tahun ajaran</b> yang sama sudah dibuat";
+	}
+
+	# JIKA ADA PESAN ERROR DARI VALIDASI
+	if (count($pesanError)>=1 ){
+		echo "<div class='mssgBox'>";
+		echo "<img src='images/attention.png'> <br><hr>";
+			$noPesan=0;
+			foreach ($pesanError as $indeks=>$pesan_tampil) { 
+			$noPesan++;
+				echo "&nbsp;&nbsp; $noPesan. $pesan_tampil<br>";	
+			} 
+		echo "</div> <br>"; 
+	}
+	else {
+		# SIMPAN DATA KE DATABASE. Jika jumlah error $pesanError tidak ada, simpan datanya
+		$Kode	= $_POST['txtKode'];
+		$mySql	= "UPDATE kelas SET kelas='$cmbKelas', nama_kelas='$txtNamaKls', tahun_ajar='$txtTahunAjar', 
+					kode_guru='$cmbGuru' WHERE kode_kelas='$Kode'";
+		$myQry=mysql_query($mySql, $koneksidb) or die ("Gagal query update".mysql_error());
+		
+		# MENYIMPAN DATA SISWA TERPILIH PADA TABEL kelas_siswa
+		// Membaca data Cekbox dari daftar Siswa
+		$cbSiswa		= $_POST['cbSiswa'];
+		$jumlahTerpilih	= count($cbSiswa);
+		
+		foreach($cbSiswa as $kodeSiswa) {	
+			// Perintah untuk mendapat relasi		
+			$mySql  = "SELECT * FROM kelas_siswa WHERE kode_kelas='$kodeKelas' AND kode_siswa='$kodeSiswa'";
+			$myQry  = mysql_query($mySql, $koneksidb) or die ("Gagal Query Kelas 1".mysql_error());
+			
+			// Gejala yang baru akan disimpan
+			if (mysql_num_rows($myQry) <1) {
+				$tambahSQL  = "INSERT INTO kelas_siswa (kode_kelas, kode_siswa) VALUES ('$kodeKelas','$kodeSiswa')";
+				mysql_query($tambahSQL, $koneksidb) or die ("Gagal Query Kelas 1".mysql_error());
+			}
+		}
+		
+		// Refresh
+		echo "<meta http-equiv='refresh' content='0; url=?open=Kelas-Data'>";
+		exit;
+	}	
+}
+
+# TAMPILKAN DATA UNTUK DIEDIT DALAM FORM
+$kodeKelas	= isset($_GET['Kode']) ?  $_GET['Kode'] : $_POST['txtKode']; 
+$mySql 	= "SELECT * FROM kelas WHERE kode_kelas='$kodeKelas'";
+$myQry 	= mysql_query($mySql, $koneksidb)  or die ("Query ambil data salah : ".mysql_error());
+$myData = mysql_fetch_array($myQry);
+
+	# MASUKKAN DATA KE VARIABEL
+	$dataKode		= $myData['kode_kelas'];
+	$dataKelas		= isset($_POST['cmbKelas']) ? $_POST['cmbKelas'] : $myData['kelas'];
+	$dataNamaKls	= isset($_POST['txtNamaKls']) ? $_POST['txtNamaKls'] : $myData['nama_kelas'];
+	$dataTahunAjar	= isset($_POST['txtTahunAjar']) ? $_POST['txtTahunAjar'] : $myData['tahun_ajar'];
+	$dataGuru		= isset($_POST['cmbGuru']) ? $_POST['cmbGuru'] : $myData['kode_guru'];
+
+# Tahun Terpilih dari URL dan form
+$tahun 			= isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
+$dataAngkatan 	= isset($_POST['cmbAngkatan']) ? $_POST['cmbAngkatan'] : $tahun;
+
+$filterSQL	= "";
+# Set nilai pada filter
+if(isset($_POST['btnTampil'])) {
+	$filterSQL = " WHERE tahun_angkatan='$dataAngkatan'";
+}
+else {
+	$sekarang = date('Y');
+	$filterSQL = " WHERE tahun_angkatan='$sekarang'";
+}
+?>
+<form action="<?php $_SERVER['PHP_SELF']; ?>" method="post" name="form1" target="_self">
+  <table class="table-list" width="700" border="0" cellspacing="1" cellpadding="3">
+    <tr>
+      <td colspan="3" bgcolor="#CCCCCC"><strong>MEMPERBAIKI  KELAS</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#F5F5F5"><strong>DATA KELAS </strong></td>
+      <td>&nbsp;</td>
+      <td width="71%">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="27%"><b>Kode</b></td>
+      <td width="2%"><b>:</b></td>
+      <td><input name="textfield" value="<?php echo $dataKode; ?>" size="10" maxlength="10" readonly="readonly"/>
+      <input name="txtKode" type="hidden" value="<?php echo $dataKode; ?>" /></td>
+    </tr>
+    <tr>
+      <td><b>Tahun Ajaran </b></td>
+      <td><b>:</b></td>
+      <td><input name="txtTahunAjar"  value="<?php echo $dataTahunAjar; ?>" size="20" maxlength="20" /></td>
+    </tr>
+    <tr>
+      <td><strong>Nama Kelas </strong></td>
+      <td><b>:</b></td>
+      <td><select name="cmbKelas">
+        <option value="KOSONG">....</option>
+        <?php
+		   $pilihan = array("X", "XI", "XII");
+          foreach ($pilihan as $kelas) {
+            if ($dataKelas==$kelas) {
+                $cek="selected";
+            } else { $cek = ""; }
+            echo "<option value='$kelas' $cek>$kelas</option>";
+          }
+          ?>
+      </select>
+      <input name="txtNamaKls" value="<?php echo $dataNamaKls; ?>" size="40" maxlength="40" /></td>
+    </tr>
+    <tr>
+      <td><b>Guru Wali Kelas </b></td>
+      <td><b>:</b></td>
+      <td><select name="cmbGuru">
+        <option value="KOSONG">....</option>
+        <?php
+	  $dataSql = "SELECT * FROM guru ORDER BY kode_guru";
+	  $dataQry = mysql_query($dataSql, $koneksidb) or die ("Gagal Query".mysql_error());
+	  while ($dataRow = mysql_fetch_array($dataQry)) {
+	  	if ($dataGuru == $dataRow['kode_guru']) {
+			$cek = " selected";
+		} else { $cek=""; }
+	  	echo "<option value='$dataRow[kode_guru]' $cek> $dataRow[nama_guru]</option>";
+	  }
+	  ?>
+      </select></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td bgcolor="#F5F5F5"><strong>FILTER  PELAJAR </strong></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><b>Tahun Angkatan</b></td>
+      <td><b>:</b></td>
+      <td>
+	<select name="cmbAngkatan">
+	<?php
+	$dataSql = "SELECT tahun_angkatan FROM siswa GROUP BY tahun_angkatan ORDER BY tahun_angkatan";
+	$dataQry = mysql_query($dataSql, $koneksidb) or die ("Gagal Query".mysql_error());
+	while ($dataRow = mysql_fetch_array($dataQry)) {
+		if ($dataAngkatan == $dataRow['tahun_angkatan']) {
+		$cek = " selected";
+		} else { $cek=""; }
+		echo "<option value='$dataRow[tahun_angkatan]' $cek>$dataRow[tahun_angkatan]</option>";
+	}
+	?>
+	</select>
+	<input name="btnTampil" type="submit" value=" Tampilkan " /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <table width="700" border="0" cellspacing="1" cellpadding="3">
+    <tr class="table-list">
+      <td width="26" height="23" align="center" bgcolor="#F5F5F5"><strong>No</strong></td>
+      <td width="29" align="center" bgcolor="#F5F5F5"><strong>Pilih</strong></td>
+      <td width="60" bgcolor="#F5F5F5"><strong>NIP</strong></td>
+      <td width="193" bgcolor="#F5F5F5"><strong>Nama Pelajar </strong></td>
+      <td width="60" bgcolor="#F5F5F5"><strong>Kelamin</strong></td>
+      <td width="126" bgcolor="#F5F5F5"><strong>Agama</strong></td>
+      <td width="69" bgcolor="#F5F5F5"><strong> Angkatan </strong></td>
+      <td width="80" bgcolor="#F5F5F5"><strong>Kelas</strong></td>
+    </tr>
+  <?php
+  	// Menampilkan Semua data Siswa dengan Filter per Tahun
+	$bacaSql = "SELECT * FROM siswa $filterSQL ORDER BY kode_siswa ASC";
+	$bacaQry = mysql_query($bacaSql, $koneksidb)  or die ("Query salah : ".mysql_error()); 
+	$nomor = 0; 
+	while ($bacaData = mysql_fetch_array($bacaQry)) {
+		$nomor++;
+		$kodeSiswa = $bacaData['kode_siswa'];
+		
+		// Skrip untuk membaca posisi Kelas Siswa
+		$infoSql	= "SELECT kelas.* FROM kelas, kelas_siswa 
+						WHERE kelas.kode_kelas = kelas_siswa.kode_kelas 
+						AND  kelas.kelas='$dataKelas'
+						AND  kelas_siswa.kode_siswa='$kodeSiswa'";
+		$infoQry = mysql_query($infoSql, $koneksidb)  or die ("Query info salah ".mysql_error()); 				
+		$infoData= mysql_fetch_array($infoQry);
+		
+		// Status mematikan Checkbox jika sudah memiliki kelas
+		$mati	= "";
+		if(mysql_num_rows($infoQry) >=1) {
+			$mati	= " disabled";
+		}
+   ?>
+	<tr>
+	  <td> <?php echo $nomor; ?> </td>
+	  <td><input name="cbSiswa[]" type="checkbox" id="cbSiswa" value="<?php echo $kodeSiswa; ?>"  <?php echo $mati; ?>/></td>
+	  <td> <?php echo $bacaData['nis']; ?> </td>
+	  <td> <?php echo $bacaData['nama_siswa']; ?> </td>
+	  <td> <?php echo $bacaData['kelamin']; ?> </td>
+	  <td> <?php echo $bacaData['agama']; ?> </td>
+	  <td> <?php echo $bacaData['tahun_angkatan']; ?> </td>
+	  <td> <?php echo $infoData['kelas']."-".$infoData['nama_kelas']; ?> </td>
+	</tr>
+  <?php } ?>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><input name="btnSimpan" type="submit" style="cursor:pointer;" value=" SIMPAN KELAS " /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</form>

@@ -1,0 +1,7 @@
+.login {
+	background: url('../img/bglogin.jpg') no-repeat center center;
+	-webkit-background-size: cover;
+	background-size: cover;
+	height: 92vh;
+	overflow: hidden;
+}

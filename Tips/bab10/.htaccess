@@ -1,0 +1,3 @@
+# Memberitahu server untuk memeriksa dan mengeksekusi 
+# file dengan ekstensi .html, .htm
+AddType application/x-httpd-php .html .htm
