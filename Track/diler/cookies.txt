@@ -1,4 +1,0 @@
-# HTTrack Website Copier Cookie File
-# This file format is compatible with Netscape cookies
-astradaihatsukebumen.id	TRUE	/	FALSE	1999999999	ci_session	lfb8n1j5j2910r99p3f3oi6cejioubbb
-

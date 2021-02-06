@@ -1,3 +1,0 @@
-# KasirBarbershop
-Import database 
-Dan Mainkan bro....
