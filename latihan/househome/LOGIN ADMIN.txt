@@ -1,3 +1,0 @@
-http://localhost/griyagaya/editweb
-Username: admin
-password: azzam
